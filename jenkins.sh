@@ -26,6 +26,9 @@ touch "${COPY_REFERENCE_FILE_LOG}" || echo "Can not write to ${COPY_REFERENCE_FI
 echo "--- Copying files at $(date)" >> "$COPY_REFERENCE_FILE_LOG"
 find /usr/share/jenkins/ref/ -type f -exec bash -c "copy_reference_file '{}'" \;
 
+# No need to pass this on to Jenkins itself.
+unset copy_reference_file
+
 # if `docker run` first argument start with `--` the user is passing jenkins launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
    exec java $JAVA_OPTS -jar /usr/share/jenkins/jenkins.war $JENKINS_OPTS "$@"
